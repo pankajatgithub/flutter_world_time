@@ -7,7 +7,7 @@ import 'package:world_time/Pages/home.dart';
 void main() {
   runApp(MaterialApp(
     // home:Home(),  it will give error as default route is defined as loading page i.e. "/"
-  initialRoute: "/home",//not necessary,we can set initial route if we want default page
+  initialRoute: "/",//not necessary,we can set initial route if we want default page
                        // other than default route
 
     routes: {
