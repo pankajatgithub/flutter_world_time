@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:world_time/services/world_time.dart';
+
 
 class Loading extends StatefulWidget {
   @override
@@ -8,26 +8,38 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void getData() async{
-     Response response=await get(Uri.parse("https://jsonplaceholder.typicode.com/todos/1"));
-     print(response.body);
-     //import dart:convert to use jsondecode method
-    Map data=jsonDecode(response.body);
-    print(data);
-     print(data['title']);
+
+  String time = "loading";
 
 
+  //as we are hitting api,we can't get data immediately,so we will use await to get result after api hit.await can be called inside
+  //async function only.to await result result from parent class api hut,parent class must have 'Future' return type
+  void setupWorldTime() async {
+    WorldTime instance = WorldTime(
+        location: 'Berlin', flag: 'germany.png', url: 'Europe/Berlin');
+    await instance.getTime();
+    print(instance.time);
+    setState(() {
+      time = instance.time;
+    });
   }
+
+
   @override
   void initState() {
     super.initState();
-    getData();
+    setupWorldTime();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("Loading Screen"),
+      body: Padding(
+        padding: const EdgeInsets.all(50.0),
+        child: Text(time),
+      ),
     );
   }
+
+
 }
