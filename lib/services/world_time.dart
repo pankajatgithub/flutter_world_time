@@ -12,23 +12,30 @@ import 'dart:convert';
      WorldTime({this.location,this.flag,this.url});
 
     Future<void> getTime() async{
-      Response response=await get(Uri.parse("http://worldtimeapi.org/api/timezone/$url"));
-      print(response.body);
-      //import dart:convert to use jsondecode method
-      // here we will need to add datetime with offset to get actual local time
-      Map data=jsonDecode(response.body);
-      String dateTime=data['datetime'];
-      //ERROR:flutter/lib/ui/ui_dart_state.cc(199)] Unhandled Exception: FormatException: Invalid radix-10 number (at character 2)
-      // E/flutter ( 5677): +01:00 ,if we add directly to datetime without substring
-      String offset=data['utc_offset'].substring(1,3);
+      try{
+        Response response=await get(Uri.parse("http://worldtimeapi.org/api/timezone/$url"));
+        print(response.body);
+        //import dart:convert to use jsondecode method
+        // here we will need to add datetime with offset to get actual local time
+        Map data=jsonDecode(response.body);
+        String dateTime=data['datetime'];
+        //ERROR:flutter/lib/ui/ui_dart_state.cc(199)] Unhandled Exception: FormatException: Invalid radix-10 number (at character 2)
+        // E/flutter ( 5677): +01:00 ,if we add directly to datetime without substring
+        String offset=data['utc_offset'].substring(1,3);
 
-      print(dateTime);
-      print(offset);
-      //   create dateTime Object
-      DateTime now=DateTime.parse(dateTime);
-      now=now.add(Duration(hours:int.parse(offset)));
-      time=now.toString();
-      print(time);
+        print(dateTime);
+        print(offset);
+        //   create dateTime Object
+        DateTime now=DateTime.parse(dateTime);
+        now=now.add(Duration(hours:int.parse(offset)));
+        time=now.toString();
+        print(time);
+
+      }catch(e){
+        print(e);
+        time="could not get time variable";
+
+      }
 
     }
 

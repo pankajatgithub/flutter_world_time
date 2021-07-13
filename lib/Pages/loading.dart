@@ -35,7 +35,7 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(100.0),
         child: Text(time),
       ),
     );
