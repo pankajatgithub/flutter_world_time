@@ -7,8 +7,12 @@ class Home extends StatefulWidget {
 }
 //text is surround with safe area because in this screen we will not use appbar
 class _HomeState extends State<Home> {
+  Map data={};
   @override
   Widget build(BuildContext context) {
+    data=ModalRoute.of(context).settings.arguments;
+    print("received data id :$data");
+
     return Scaffold(
       body: SafeArea(
           child: Column(

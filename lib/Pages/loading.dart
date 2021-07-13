@@ -9,8 +9,6 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
 
-  String time = "loading";
-
 
   //as we are hitting api,we can't get data immediately,so we will use await to get result after api hit.await can be called inside
   //async function only.to await result result from parent class api hut,parent class must have 'Future' return type
@@ -18,10 +16,14 @@ class _LoadingState extends State<Loading> {
     WorldTime instance = WorldTime(
         location: 'Berlin', flag: 'germany.png', url: 'Europe/Berlin');
     await instance.getTime();
-    print(instance.time);
-    setState(() {
-      time = instance.time;
+    // Navigator.pushNamed will do same but stack will contain loading page in that case
+    Navigator.pushReplacementNamed(context, '/home',arguments: {
+      'location':instance.location,
+      'flag':instance.flag,
+      'time':instance.time
+
     });
+
   }
 
 
@@ -36,7 +38,7 @@ class _LoadingState extends State<Loading> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(100.0),
-        child: Text(time),
+        child: Text("loading"),
       ),
     );
   }
